@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Packaging build output
+/dist/
+/build/
+build_pyi.log
+
+# Nexus runtime data (never commit user data, tokens, or DB)
+/data/
+*.db
+*.sqlite3
+.env
+credentials/
+*.token.json
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

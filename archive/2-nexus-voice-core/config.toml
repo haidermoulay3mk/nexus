@@ -1,0 +1,83 @@
+# Nexus configuration — tunables live here, not scattered through the code.
+# Edit a value, restart Nexus, and the behavior changes. No code edit required.
+
+[identity]
+name = "Nexus"
+tagline = "your assistant for reminders, drafts, and scheduling"
+
+[model]
+# The brain, behind a seam (nexus/llm.py) so the backend can be swapped right here.
+#   provider = "ollama"    -> free, local, private, no API key (the default)
+#   provider = "anthropic" -> Claude; needs ANTHROPIC_API_KEY in .env (paid)
+provider       = "ollama"
+name           = "qwen2.5:3b-instruct"   # the local model; `ollama list` shows what you have
+max_tokens     = 2048                     # cap on a single reply (keeps a 3B model snappy)
+timeout_seconds = 300                     # allow time for the model to load on the first call
+
+# These two apply ONLY to the anthropic backend; harmless to leave for ollama.
+thinking = "adaptive"   # "adaptive" lets Claude decide how much to think; "off" disables it
+effort   = "medium"     # low | medium | high | max
+
+[ollama]
+host        = "http://localhost:11434"   # where the local Ollama service listens
+num_ctx     = 4096                        # context window the model sees
+temperature = 0.7                         # higher = more varied, lower = more focused
+
+# The proactive background loop (Tier 5). Quiet by default: most checks surface nothing,
+# and non-critical interrupts are downgraded to the calm log during quiet hours.
+[heartbeat]
+enabled           = true
+tick_seconds      = 5     # how often the loop wakes to see which checks are due
+quiet_hours_start = 22    # 24h clock; window may wrap past midnight (22 -> 7 = 10pm to 7am)
+quiet_hours_end   = 7
+
+# Each check is configured under [checks.<name>]. Turn one off with enabled = false.
+[checks.signal]
+enabled          = true
+interval_seconds = 10
+path             = "state/heartbeat-signal.txt"   # write a line here to trigger an interrupt
+
+[checks.reminders_due]
+enabled          = true
+interval_seconds = 30     # a quiet log summary of how many reminders you have
+
+# Safety rails (Tier 6). The confirmation gate stops a consequential action and asks for
+# your explicit yes before it runs — for spoken, typed, and proactively-initiated actions.
+[safety]
+gate_enabled = true
+# Tools that always require confirmation. forget_fact (deleting memory) is already gated in
+# code; add tool names here to gate more, e.g. a future "send_email" or "make_purchase".
+# Try it: add "add_reminder" and Nexus will ask before saving a reminder — no code edit.
+confirm = []
+
+# Conversation feel. When a turn is just a sign-off ("okay, thanks", "sounds good",
+# "great, I'll do that"), Nexus lets it end — no reply, no last word. The check is
+# deterministic and conservative (it errs toward replying); tune the word lists in
+# nexus/endings.py. Set false to always reply.
+[conversation]
+end_on_signoff = true
+
+# Voice (Tier 3) — push-to-talk. Free and local by default: hearing via Whisper (runs on
+# your machine), speaking via your Windows voice. Each sits behind a seam, so you can later
+# switch stt -> "deepgram" / tts -> "elevenlabs" (with keys in .env) without code changes.
+[voice]
+stt           = "whisper"   # local speech-to-text
+whisper_model = "base"      # tiny (fastest) | base (good balance) | small (more accurate, slower)
+tts           = "windows"   # local text-to-speech (your built-in Windows voices)
+tts_voice     = ""          # optional: part of a Windows voice name, e.g. "Zira" or "David"
+samplerate    = 16000       # what Whisper expects; leave as-is
+
+# How you talk to Nexus:
+#   mode = "hands_free"    -> always-on mic; just speak, no key (the default)
+#   mode = "push_to_talk"  -> hold a key to talk (set push_to_talk below)
+mode          = "hands_free"
+push_to_talk  = "ctrl_r"    # the key for push_to_talk mode (Right-Ctrl, so SPACE stays free)
+
+# Hands-free tuning:
+#   endpoint_ms  -> how much silence ends your turn. Lower = snappier, but can clip slow
+#                   talkers or mid-sentence pauses. Raise it if it cuts you off.
+#   barge_in     -> let your voice interrupt Nexus mid-reply. Needs headphones — on open
+#                   laptop speakers it would hear itself, so it's off by default (Nexus
+#                   simply stops listening while it speaks, then listens again).
+endpoint_ms   = 700
+barge_in      = false

@@ -1,0 +1,18 @@
+name: productivity
+description: >
+  Manages your tasks/to-dos and longer-term goals: add and complete tasks, set
+  priorities and due dates, track goals and their progress.
+mode: on_demand
+model_tier: balanced
+keywords: [task, tasks, todo, "to-do", goal, goals, deadline, deadlines, project,
+           projects, checklist, priority, remind, reminder, reminders, remember, due, forget]
+system_prompt: productivity.md
+tools:
+  - task_add
+  - task_list
+  - task_done
+  - goal_add
+  - goal_list
+  - goal_progress
+max_steps: 6
+enabled: true

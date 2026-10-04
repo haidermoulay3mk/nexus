@@ -1,0 +1,23 @@
+{
+  "name": "nexus",
+  "private": true,
+  "version": "0.3.0",
+  "description": "Nexus — local-first, offline-capable, 100%-free personal AI operations center",
+  "license": "MIT",
+  "workspaces": ["apps/ui", "packages/*", "plugins/*"],
+  "scripts": {
+    "dev:runner": "bun run --cwd packages/runner dev",
+    "dev:ui": "bun run --cwd apps/ui dev",
+    "dev:web": "bun run scripts/dev-web.ts",
+    "build:runner": "bun run --cwd packages/runner compile",
+    "build:ui": "bun run --cwd apps/ui build",
+    "typecheck": "bun run --cwd packages/core typecheck && bun run --cwd packages/db typecheck && bun run --cwd packages/plugin-sdk typecheck && bun run --cwd packages/runner typecheck && bun run --cwd apps/ui typecheck && bun run --cwd plugins/academics typecheck && bun run --cwd plugins/scholarships typecheck && bun run --cwd plugins/courses typecheck && bun run --cwd plugins/agency typecheck && bun run --cwd plugins/ops typecheck && bun run --cwd plugins/calendar typecheck && bun run --cwd plugins/email typecheck && bun run --cwd plugins/metrics typecheck && bun run --cwd plugins/reports typecheck && bun run --cwd plugins/intel typecheck && bun run --cwd plugins/notion typecheck",
+    "test": "bun test packages plugins",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,12 @@
+name: assistant
+description: >
+  General-purpose helper for anything that isn't study, email, or calendar:
+  answering questions, saving and recalling notes, and everyday requests.
+mode: on_demand
+model_tier: balanced
+system_prompt: assistant.md
+tools:
+  - mem_remember
+  - mem_recall
+max_steps: 6
+enabled: true

@@ -1,0 +1,25 @@
+# Secrets — never commit
+.env
+
+# Durable runtime state (schedule, inbox, cost tally, kill-switch flag)
+state/
+
+# Long-term memory is private and human-readable; keep the folder, not its contents
+memory/*
+!memory/.gitkeep
+!memory/SAMPLE.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

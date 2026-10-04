@@ -1,0 +1,21 @@
+name: study
+description: >
+  Manages A-Level study for Physics, Mathematics, and Computer Science: tracks
+  topics and chapters, logs past-paper scores, identifies weak and strong areas,
+  reports progress, and gives study recommendations.
+mode: on_demand
+model_tier: balanced
+keywords: [study, studies, revise, revision, exam, exams, paper, papers, topic, topics,
+           chapter, physics, maths, math, mathematics, "computer science", grade, grades, weak]
+system_prompt: study.md
+tools:
+  - study_add_subject
+  - study_add_topic
+  - study_set_confidence
+  - study_log_paper
+  - study_weak_topics
+  - study_strong_topics
+  - study_progress
+  - study_recommendations
+max_steps: 8
+enabled: true

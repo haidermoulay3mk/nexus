@@ -1,0 +1,15 @@
+name: email
+description: >
+  Full control of your Gmail: reads and summarizes unread mail, flags anything
+  needing a reply or with a deadline, and sends or replies to emails for you.
+mode: on_demand
+model_tier: balanced
+keywords: [email, emails, inbox, mail, gmail, message, messages, unread, reply, send, compose, write]
+system_prompt: email.md
+tools:
+  - email_list_unread
+  - email_summary
+  - email_send
+  - email_label
+max_steps: 6
+enabled: true

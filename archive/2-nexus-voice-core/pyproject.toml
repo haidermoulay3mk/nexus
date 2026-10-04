@@ -1,0 +1,36 @@
+[project]
+name = "nexus-assistant"
+version = "0.1.0"
+description = "Nexus — the core of a voice-first AI assistant (built tier by tier)."
+readme = "README.md"
+requires-python = ">=3.11"          # for stdlib tomllib (no extra config dependency)
+dependencies = [
+    "anthropic",                    # the brain; the only SDK Tier 1 needs
+]
+
+# Voice dependencies are deliberately NOT installed until Tier 3, so the brain
+# can be built and debugged with nothing but the model.
+[project.optional-dependencies]
+# The free, local voice stack (the default): hearing via Whisper, speaking via Windows.
+voice = [
+    "sounddevice",                  # microphone capture
+    "numpy",                        # audio buffers
+    "faster-whisper",               # local speech-to-text (no key, runs offline)
+    "pyttsx3",                      # local text-to-speech via the OS voices (Windows SAPI)
+    "pynput",                       # push-to-talk key hold
+]
+# Optional paid/cloud voice backends, for later. Not needed for the free local stack.
+voice-cloud = [
+    "deepgram-sdk",                 # speech-to-text (cloud)
+    "elevenlabs",                   # text-to-speech (cloud)
+]
+
+[project.scripts]
+nexus = "nexus.__main__:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["nexus"]

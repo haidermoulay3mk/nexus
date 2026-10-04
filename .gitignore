@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+target/
+*.db
+*.db-wal
+*.db-shm
+.nexus/
+apps/shell/src-tauri/binaries/*
+!apps/shell/src-tauri/binaries/.gitkeep
+apps/ui/dist/
+packages/runner/out/
+.env
+*.local
+.DS_Store
+Thumbs.db

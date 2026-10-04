@@ -1,0 +1,15 @@
+name: calendar
+description: >
+  Reads your Google Calendar, tells you what's coming up, reminds you of events,
+  and creates or deletes events on your behalf.
+mode: on_demand
+model_tier: balanced
+keywords: [calendar, schedule, event, events, meeting, meetings, remind, reminder,
+           reminders, appointment, agenda, today, tomorrow, week]
+system_prompt: calendar.md
+tools:
+  - calendar_upcoming
+  - calendar_create
+  - calendar_delete
+max_steps: 6
+enabled: true
